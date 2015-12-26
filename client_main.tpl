@@ -15,12 +15,13 @@
             </div>
             <div class="list-group">
                 <a href="#overview" id="overview-tab" class="list-group-item active" onclick="setOverview('overview');" aria-controls="overview" role="tab" data-toggle="tab">{$MLANG.client_overview}</a>
-                <a href="#template" id="template-tab" class="list-group-item {if $client_template eq false}disabled{/if}" {if $client_template eq true} onclick="setOverview('template'); drawRecords('sdns_template');" {/if} aria-controls="template" role="tab" data-toggle="tab">{$MLANG.client_defaulttemplate}</a>
-                <a href="#reverse" id="reverse-tab" class="list-group-item {if $reverse_management eq false}disabled{/if}" {if $reverse_management eq true} onclick="setOverview('reverse'); drawReverse('sdns_reverse');" {/if} aria-controls="reverse" role="tab" data-toggle="tab">{$MLANG.client_reversedns}</a>
+                {if $lal >= 3}<a href="#template" id="template-tab" class="list-group-item {if $client_template eq false}disabled{/if}" {if $client_template eq true} onclick="setOverview('template'); drawRecords('sdns_template');" {/if} aria-controls="template" role="tab" data-toggle="tab">{$MLANG.client_defaulttemplate}</a>{/if}
+                {if $lal >= 3}<a href="#reverse" id="reverse-tab" class="list-group-item {if $reverse_management eq false}disabled{/if}" {if $reverse_management eq true} onclick="setOverview('reverse'); drawReverse('sdns_reverse');" {/if} aria-controls="reverse" role="tab" data-toggle="tab">{$MLANG.client_reversedns}</a>{/if}
             </div>
         </div>
         {if $maintenance eq false} 
         {if $client_zones eq true}
+        {if $lal >= 3}
         <div class="input-group input-group">
             <input id="sdns_add_zone" class="form-control" type="text" name="q" placeholder="{$MLANG.client_addnewzone}"></input>
             <div class="input-group-btn">
@@ -28,6 +29,7 @@
             </div>
         </div>
         <div class="text-center"><small><label for="add_zone">{$MLANG.client_addupto} {$zone_limit} {$MLANG.client_zones}.</label></small></div>
+        {/if}
         {/if}
         {/if}
     </div>
@@ -58,6 +60,7 @@
                     </table>
                 </div>
             </div>
+            {if $lal >= 3}
             {if $client_template eq true}
             <!-- Template Tab -->
             <div role="tabpanel" class="tab-pane" id="template">
@@ -110,7 +113,10 @@
                 </div>
                 {/if}
             </div>
-            {/if} {if $reverse_management eq true}
+            {/if}
+            {/if}
+            {if $lal >= 3}
+            {if $reverse_management eq true}
             <!-- Reverse Tab -->
             <div role="tabpanel" class="tab-pane" id="reverse">
                 <div class="table-container clearfix">
@@ -132,13 +138,14 @@
                 </div>
             </div>
             {/if}
+            {/if}
         </div>
         {/if}
     </div>
 </div>
 
 {if $maintenance eq false} 
-{if $client_zones eq true}
+{if $client_zones eq true || $client_template eq true}
 <!-- Add Modal -->
 <div class="bootstrap">
     <div class="modal fade" id="dialog_addRecord" tabindex="-1" role="dialog" aria-labelledby="dialog_addRecord" aria-hidden="true">
@@ -152,7 +159,7 @@
                     <div class="row">
                         <div id="sdns_z-name_0" class="col-md-3">
                             <label for "sdns_name_0">{$MLANG.client_name}:</label>
-                            <input type="textbox" class="form-padding form-control" name="sdns_name_0" id="sdns_name_0" value="&lt;domain&gt;">
+                            <input type="textbox" class="form-padding form-control" name="sdns_name_0" id="sdns_name_0" placeholder="&lt;domain&gt;">
                         </div>
                         <div class="col-md-2">
                             <label for "sdns_type_0">{$MLANG.client_type}:</label>
@@ -189,6 +196,8 @@
         </div>
     </div>
 </div>
+
+{if $lal >= 3}
 
 <!-- Delete Modal -->
 <div class="bootstrap">
@@ -237,6 +246,7 @@
 
 <input type="hidden" id="sdns_zone">
 <input type="hidden" id="sdns_record">
+{/if}
 
 <script>
     $(document).ready(function() {
@@ -245,3 +255,11 @@
 </script>
 {/if}
 </div>
+
+<noscript>
+    <div class="alert alert-danger">
+        <h4>{$MLANG.nojavascript_title}</h4>
+        <p>{$MLANG.nojavascript_desc}</p>
+    </div>
+    <style>.sidebar { display:none; } .tab-content { display:none; }</style>
+</noscript>
