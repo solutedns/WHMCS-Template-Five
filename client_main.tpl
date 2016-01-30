@@ -124,8 +124,8 @@
                     <table id="sdns_reverse" class="table table-list dataTable">
                         <thead>
                             <tr>
-                                <th>{$MLANG.client_hostname}</th>
                                 <th>{$MLANG.client_ip}</th>
+                                <th>{$MLANG.client_hostname}</th>
                                 <th></th>
                             </tr>
                         </thead>
